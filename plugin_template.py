@@ -1,9 +1,8 @@
-import sys
 
 class plugin:
     
     def __init__(self):
-        print "plugin default constructor"
+        print "plugin template constructor"
 
     def get_data(self):
         raise Exception("not implemented")
@@ -12,5 +11,6 @@ class plugin:
         raise Exception("not implemented")
 
     def get_name(self):
-        return "plugin sample"
+        return "plugin template"
     
+
