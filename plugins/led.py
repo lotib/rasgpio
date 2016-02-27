@@ -11,10 +11,13 @@ class led(plugin_template.plugin):
 
 
     def get_data(self):
-        raise Exception("not implemented")
+
+        return "hello world"
+        
+        #raise Exception("not implemented")
 
     def set_data(self):
         raise Exception("not implemented")
 
     def get_name(self):
-        return "plugin led"
+        return "led"

@@ -6,26 +6,28 @@ from os import listdir
 from os.path import isfile, join
 import re
 import inspect
+import signal, os
 
 PLUGIN_PATH="plugins"
 PORT = 8000
-plugins = []
+plugins = {}
 
 
 class RaspHttpHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
         def do_GET(self):
-                
                 print "get", self.path
-
+                for key, plugin in plugins.iteritems():
+                        print key
+                        if self.path == '/' + key:
+                                self.send(json.dumps(plugin.get_data(self.path)))
+                                return
+                
                 if self.path == '/all':
                         print "all"
                         self.send(json.dumps([2,3]))
                 else:
-                        print "else"
                         SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
-
-                print "end"
                         
 
 	def send(self, response):
@@ -51,11 +53,28 @@ def load_plugins():
                         if inspect.isclass(obj):
                 
                                 plugin_obj = obj()
-                                print plugin_obj.get_name()
-                                plugins.append(plugin_obj)
+                                print 
+                                plugins[plugin_obj.get_name()] = plugin_obj
 
-        
+
+
+
+def handler(signum, frame):
+
+        for key, plugin in plugins.iteritems():
+                del plugin
+                
+        print 'Signal handler called with signal', signum
+
+
+
+signal.signal(signal.SIGINT, handler)
+signal.signal(signal.SIGTERM, handler)
+
+                                
 load_plugins()
+
+maled1 = led() 
         
 SocketServer.TCPServer.allow_reuse_address = True
 httpd = SocketServer.TCPServer(("", PORT), RaspHttpHandler)
