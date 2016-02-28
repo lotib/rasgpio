@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+
 import SimpleHTTPServer
 import SocketServer
 import json
@@ -19,7 +22,7 @@ class RaspHttpHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 print "get", self.path
                 for key, plugin in plugins.iteritems():
                         print key
-                        if self.path == '/' + key:
+                        if self.path.startswith('/' + key):
                                 self.send(json.dumps(plugin.get_data(self.path)))
                                 return
                 
@@ -49,7 +52,8 @@ def load_plugins():
 
                 for name, obj in inspect.getmembers(plugin_module):
                 
-                        print obj
+                        print "object found", obj
+                        
                         if inspect.isclass(obj):
                 
                                 plugin_obj = obj()
@@ -60,12 +64,10 @@ def load_plugins():
 
 
 def handler(signum, frame):
-
         for key, plugin in plugins.iteritems():
                 del plugin
-                
         print 'Signal handler called with signal', signum
-
+        exit()
 
 
 signal.signal(signal.SIGINT, handler)
@@ -74,7 +76,7 @@ signal.signal(signal.SIGTERM, handler)
                                 
 load_plugins()
 
-maled1 = led() 
+
         
 SocketServer.TCPServer.allow_reuse_address = True
 httpd = SocketServer.TCPServer(("", PORT), RaspHttpHandler)

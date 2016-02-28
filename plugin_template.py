@@ -11,6 +11,6 @@ class plugin:
         raise Exception("not implemented")
 
     def get_name(self):
-        return "plugin template"
+        return self.__class__.__name__
     
 
