@@ -2,7 +2,7 @@
 class plugin:
     
     def __init__(self):
-        print "plugin template constructor"
+        print("plugin template constructor")
 
     def get_data(self, url):
         raise Exception("not implemented")

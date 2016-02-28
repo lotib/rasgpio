@@ -5,20 +5,17 @@ import time
 class gpio(plugin_template.plugin):
 
     pwms = {}
-    
+
     def __init__(self):
-        print "plugin template constructor"
+        print("plugin gpio constructor")
         #GPIO.setmode(GPIO.BOARD)
         GPIO.setmode(GPIO.BCM)
         
     def __del__(self):
         GPIO.cleanup()
-    
         
     def get_data(self, url):
         args = url.split('/')
-
-
         channel = int(args[2])
         mode = args[3]
         #action["off"] = self.set_gpio
@@ -33,16 +30,10 @@ class gpio(plugin_template.plugin):
         elif mode == "pwm":
             cycle = args[4]
             self.change_pwm(channel, cycle)
-
-
-        
-        return args 
-        
-        raise Exception("not implemented")
+        return args
 
     def set_data(self):
         raise Exception("not implemented")
-
 
     ##
     # GPIO.INPUT,
