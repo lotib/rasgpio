@@ -1,4 +1,5 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+# vim:set ts=4 sw=4 et:
 
 import imp
 from os import listdir
@@ -12,8 +13,8 @@ plugins = {}
 
 
 def register_signals():
-        signal.signal(signal.SIGINT, handler)
-        signal.signal(signal.SIGTERM, handler)
+    signal.signal(signal.SIGINT, handler)
+    signal.signal(signal.SIGTERM, handler)
 
 
 def load_plugins():
@@ -38,4 +39,5 @@ def handler(signum, frame):
         print('Signal handler called with signal', signum)
         exit()
 
-load_plugins()
+if __name__ == "__main__":
+    load_plugins()
